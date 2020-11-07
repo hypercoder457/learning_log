@@ -8,7 +8,8 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <ul>
-            <li>NOTE: A confirmation email will be sent to your inbox after you click the register button.</li> 
+            <li>NOTE: A confirmation email will be sent to your inbox after you click the register button.<br>
+            You will have to click a link in that email to confirm your account.</li> 
         </ul>
         {% buttons %}
             <button name="submit" class="btn btn-primary">Create your account!</button>
