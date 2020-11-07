@@ -9,7 +9,6 @@ class CustomUser(AbstractUser):
     with some attributes added, and a `__str__()` method added to show the
     user's username. (Basically a fully blown User model, but this is inherited.)
     """
-    is_confirmed = False
 
     def __str__(self) -> str:
         return f"{self.username}"
