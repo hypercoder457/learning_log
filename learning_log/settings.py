@@ -134,7 +134,7 @@ LOGIN_URL = 'users:login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-EMAIL_ACTIVE_FIELD = 'is_confirmed'
+EMAIL_ACTIVE_FIELD = 'is_active'
 EMAIL_SERVER = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_ADDRESS = 'rpshende60@gmail.com'
