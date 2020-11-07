@@ -1,0 +1,20 @@
+{% extends 'learning_logs/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <form method="POST" action="{% url 'users:register' %}" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <ul>
+            <li>NOTE: A confirmation email will be sent to your inbox after you click the register button.</li> 
+        </ul>
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">Create your account!</button>
+        {% endbuttons %}
+
+        <input type="hidden" name="next"
+        value="{% url 'learning_logs:index' %}" />
+    </form>
+{% endblock content %}
