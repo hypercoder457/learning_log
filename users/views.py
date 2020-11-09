@@ -5,7 +5,6 @@ from .forms import CustomUserCreationForm
 
 from django.http import HttpResponse
 
-from django_email_verification import sendConfirm
 # Create your views here.
 def register(request) -> HttpResponse:
     """Register a new user."""
@@ -16,7 +15,6 @@ def register(request) -> HttpResponse:
         
         if form.is_valid():
             new_user = form.save()
-            sendConfirm(new_user)
             # Log the user in, then redirect back to the home page.
             login(request, new_user)
             return redirect('learning_logs:index')
