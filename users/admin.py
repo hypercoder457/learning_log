@@ -1,4 +1,3 @@
-# Register your models here.
 from typing import List, Type
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
