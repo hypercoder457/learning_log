@@ -1,24 +1,26 @@
+from typing import Dict, List, Type
 from django import forms
+from django.forms.widgets import Textarea
 
 from .models import Topic, Entry
 
 class TopicForm(forms.ModelForm):
     class Meta:
-        model = Topic
-        fields = ['text']
-        labels =  {
+        model: Type[Topic] = Topic
+        fields: List[str] = ['text']
+        labels: Dict[str, str] =  {
             'text': '' 
         }
         
 class EntryForm(forms.ModelForm):
     class Meta:
-        model = Entry
-        fields = ['text']
-        labels = {
+        model: Type[Entry] = Entry
+        fields: List[str] = ['text']
+        labels: Dict[str, str] = {
             'text': ''
         }
 
-        widgets = {
+        widgets: Dict[str, Textarea] = {
             'text': forms.Textarea(
                 attrs = {
                     'cols': 80
