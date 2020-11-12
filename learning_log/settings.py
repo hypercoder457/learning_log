@@ -38,7 +38,6 @@ INSTALLED_APPS = [
 
     # Third party apps.
     'bootstrap4',
-    'simple_email_confirmation',
     
     # Default Django Apps
     'django.contrib.admin',
@@ -134,17 +133,6 @@ LOGIN_URL = 'users:login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-EMAIL_ACTIVE_FIELD = 'is_active'
-EMAIL_SERVER = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_ADDRESS = 'rpshende60@gmail.com'
-EMAIL_FROM_ADDRESS = 'noreply@aliasaddress.com'
-EMAIL_PASSWORD = 'mYC00lP4ssw0rd' # os.environ['password_key'] suggested
-EMAIL_MAIL_SUBJECT = 'Confirm your email'
-EMAIL_MAIL_HTML = 'mail_body.html'
-EMAIL_MAIL_PLAIN = 'mail_body.txt'
-EMAIL_PAGE_TEMPLATE = 'confirm_template.html'
-EMAIL_PAGE_DOMAIN = 'http://localhost:8000/'
 
 # Heroku settings. (for the live server)
 import django_heroku
