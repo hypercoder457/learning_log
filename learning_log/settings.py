@@ -132,7 +132,12 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'users:login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
-
+# These settings are for email confirmation settings.
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'kpshende@gmail.com'
+EMAIL_HOST_PASSWORD = 'mclfdvzgkomytvwi'
+EMAIL_PORT = 465
 
 # Heroku settings. (for the live server)
 import django_heroku

@@ -1,9 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 
-from simple_email_confirmation.models import SimpleEmailConfirmationUserMixin
 # Create your models here.
 
-class CustomUser(SimpleEmailConfirmationUserMixin, AbstractUser):
+class CustomUser(AbstractUser):
     """
     This user model extends the Django `AbstractUser` model,
     with a `__str__()` method added to show the
