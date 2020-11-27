@@ -1,8 +1,12 @@
+from typing import Union
+
 from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from django.http.response import (HttpResponsePermanentRedirect,
+                                  HttpResponseRedirect)
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
@@ -52,7 +56,8 @@ def register(request: WSGIRequest) -> HttpResponse:
     context = { 'form': form }
     return render(request, 'registration/register.html', context)
 
-def activate(request: WSGIRequest, uidb64: bytes, token: str):
+def activate(request: WSGIRequest, uidb64: bytes, token: str) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect, 
+HttpResponse]:
     """
     Function for activating the user's account.
     """
