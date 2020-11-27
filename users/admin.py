@@ -1,10 +1,11 @@
 from typing import List, Type
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import CustomUser
+
 
 class CustomUserAdmin(UserAdmin):
     add_form: Type[CustomUserCreationForm] = CustomUserCreationForm

@@ -1,23 +1,20 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.handlers.wsgi import WSGIRequest
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from .forms import CustomUserCreationForm
-
-from django.http import HttpResponse
-
-from django.contrib.sites.shortcuts import get_current_site
-
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-
-from django.template.loader import render_to_string
+from .models import CustomUser
 from .tokens import account_activation_token
 
-from .models import CustomUser
-from django.core.mail import EmailMessage
 
 # Create your views here.
-def register(request) -> HttpResponse:
+def register(request: WSGIRequest) -> HttpResponse:
     """Register a new user."""
     if request.method != 'POST':
         form = CustomUserCreationForm() # Display blank registration form.
@@ -49,17 +46,13 @@ def register(request) -> HttpResponse:
             )
             # Send the email and return a response.
             email.send()
-            return HttpResponse(
-                '''
-                Please confirm your email to complete your registration for Learning Log.
-                '''
-            )
+            return render(request, 'registration/email_confirmation.html')
 
     # Display a blank or invalid registration form.
     context = { 'form': form }
     return render(request, 'registration/register.html', context)
 
-def activate(request, uidb64, token):
+def activate(request: WSGIRequest, uidb64: bytes, token: str):
     """
     Function for activating the user's account.
     """
@@ -78,8 +71,4 @@ def activate(request, uidb64, token):
         login(request, user)
         return redirect('learning_logs:index')
     else:
-        return HttpResponse(
-            '''
-            Sorry, the activation link was invalid.
-            '''
-        )
+        return render(request, 'registration/invalid_link.html')

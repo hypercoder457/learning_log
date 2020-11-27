@@ -1,6 +1,7 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 
+
 class MyTokenGenerator(PasswordResetTokenGenerator):
     """
     A confirmation token generator,

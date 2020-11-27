@@ -1,10 +1,12 @@
 """Defines URL patterns for `learning_logs`"""
 
 from typing import List
+
 from django.urls import path
 from django.urls.resolvers import URLPattern
 
 from . import views
+
 app_name: str = 'learning_logs'
 urlpatterns: List[URLPattern] = [
     # Home page

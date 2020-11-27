@@ -1,8 +1,10 @@
 from typing import Dict, List, Type
+
 from django import forms
 from django.forms.widgets import Textarea
 
-from .models import Topic, Entry
+from .models import Entry, Topic
+
 
 class TopicForm(forms.ModelForm):
     class Meta:

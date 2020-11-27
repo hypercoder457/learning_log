@@ -1,6 +1,7 @@
 """Defines URL patterns for `users` app."""
 from typing import List, Union
-from django.urls import path, include
+
+from django.urls import include, path
 from django.urls.resolvers import URLPattern, URLResolver
 
 from . import views

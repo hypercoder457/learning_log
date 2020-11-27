@@ -1,22 +1,26 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from typing import Union
 from django.contrib.auth.decorators import login_required
+from django.core.handlers.wsgi import WSGIRequest
 from django.http import Http404, HttpResponse
+from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .models import Topic, Entry
-from .forms import TopicForm, EntryForm
+from .forms import EntryForm, TopicForm
+from .models import Entry, Topic
+
 
 # Create your views here.
-def index(request) -> HttpResponse:
+def index(request: WSGIRequest) -> HttpResponse:
     """The Home page for Learning Log."""
     return render(request, 'learning_logs/index.html')
 
-def check_topic_owner(request, topic) -> None:
+def check_topic_owner(request: WSGIRequest, topic: Topic) -> None:
     if topic.owner != request.user:
         raise Http404
 
 
 @login_required
-def topics(request) -> HttpResponse:
+def topics(request: WSGIRequest) -> HttpResponse:
     """The `Topics` page for Learning Log. This will show all the Topics."""
     all_topics = Topic.objects.filter(owner = request.user).order_by('date_added')
     context = { 'topics': all_topics }
@@ -24,7 +28,7 @@ def topics(request) -> HttpResponse:
 
 
 @login_required
-def single_topic(request, topic_id) -> HttpResponse:
+def single_topic(request: WSGIRequest, topic_id: int) -> HttpResponse:
     """Show a single topic & all it's entries."""
     topic = get_object_or_404(Topic, id = topic_id)
     # Make sure the topic belongs to the current user.
@@ -35,7 +39,8 @@ def single_topic(request, topic_id) -> HttpResponse:
     return render(request, 'learning_logs/topic.html', context)
 
 @login_required
-def new_topic(request):
+def new_topic(request: WSGIRequest) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect, 
+HttpResponse]:
     """Add a new topic."""
     if request.method != 'POST':
         form = TopicForm() # No data has been submitted through the form, so create a blank form.
@@ -55,7 +60,8 @@ def new_topic(request):
 
 
 @login_required
-def new_entry(request, topic_id):
+def new_entry(request: WSGIRequest, topic_id: int) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect, 
+HttpResponse]:
     """Add a new entry, associated with a topic."""
     topic = get_object_or_404(Topic, id = topic_id)
 
@@ -76,7 +82,8 @@ def new_entry(request, topic_id):
 
 
 @login_required
-def edit_entry(request, entry_id):
+def edit_entry(request: WSGIRequest, entry_id: int) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect, 
+HttpResponse]:
     """
     Let the user edit their existing entry,\n
     which is associated with a topic.
