@@ -1,8 +1,10 @@
 from typing import Union
+
 from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import Http404, HttpResponse
-from django.http.response import HttpResponsePermanentRedirect, HttpResponseRedirect
+from django.http.response import (HttpResponsePermanentRedirect,
+                                  HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import EntryForm, TopicForm
