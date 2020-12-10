@@ -26,14 +26,14 @@ def register(request: WSGIRequest) -> HttpResponse:
         form = CustomUserCreationForm(data=request.POST) # Process completed form.
         
         if form.is_valid():
-            new_user = form.save(commit=False)
+            new_user: CustomUser = form.save(commit=False)
             # This is a FLAG for the user, if the user is active or not.
             new_user.is_active = False
             # This code is for email confirmation.
             new_user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your account for Learning Log!'
-            message = render_to_string('acc_active_template.html', {
+            message = render_to_string('registration/acc_active_email.html', {
                 'user': new_user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
@@ -64,7 +64,7 @@ HttpResponse]:
     try:
         # Get a user id and get the current user object
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = CustomUser.objects.get(pk=uid)
+        user: CustomUser = CustomUser.objects.get(pk=uid)
     # Handle the errors that may happen.
     except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
         user = None
