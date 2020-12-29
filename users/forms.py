@@ -11,6 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
         model: Type[CustomUser] = CustomUser
         fields: Tuple[str] = ('username', 'email')
 
+
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:

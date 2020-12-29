@@ -10,10 +10,11 @@ class TopicForm(forms.ModelForm):
     class Meta:
         model: Type[Topic] = Topic
         fields: List[str] = ['text']
-        labels: Dict[str, str] =  {
-            'text': '' 
+        labels: Dict[str, str] = {
+            'text': ''
         }
-        
+
+
 class EntryForm(forms.ModelForm):
     class Meta:
         model: Type[Entry] = Entry
@@ -24,7 +25,7 @@ class EntryForm(forms.ModelForm):
 
         widgets: Dict[str, Textarea] = {
             'text': forms.Textarea(
-                attrs = {
+                attrs={
                     'cols': 80
                 }
             )

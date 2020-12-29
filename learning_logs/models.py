@@ -6,8 +6,8 @@ from users.models import CustomUser
 
 class Topic(models.Model):
     """A Topic the user is learning about."""
-    text: CharField = models.CharField(max_length = 200)
-    date_added: DateTimeField = models.DateTimeField(auto_now_add = True)
+    text: CharField = models.CharField(max_length=200)
+    date_added: DateTimeField = models.DateTimeField(auto_now_add=True)
     owner: ForeignKey = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -17,6 +17,7 @@ class Topic(models.Model):
         NOTE, this is different from many python classes `__repr__()` methods.
         """
         return self.text
+
 
 class Entry(models.Model):
     """Something specific learned about a topic"""

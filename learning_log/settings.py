@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
 
     # Third party apps.
     'bootstrap4',
-    
+
     # Default Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -140,7 +142,6 @@ EMAIL_HOST_PASSWORD = 'mclfdvzgkomytvwi'
 EMAIL_PORT = 465
 
 # Heroku settings. (for the live server)
-import django_heroku
 django_heroku.settings(locals())
 
 # Setting DEBUG based on environment variables
@@ -149,4 +150,3 @@ if os.environ.get('DEBUG') == 'TRUE':
     DEBUG = True
 elif os.environ.get('DEBUG') == 'FALSE':
     DEBUG = False
-
