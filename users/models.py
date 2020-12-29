@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-# Create your models here.
 
 class CustomUser(AbstractUser):
     """
@@ -11,6 +11,12 @@ class CustomUser(AbstractUser):
     because the model is abstract, which
     would cause an error.)
     """
+    email = models.EmailField(
+        'Email address',
+        unique=True,
+        error_messages={'unique': 'A user with that email already exists.'},
+        help_text="Required. Emails MUST be UNIQUE."
+    )
 
     def __str__(self) -> str:
         return f"{self.username}"
