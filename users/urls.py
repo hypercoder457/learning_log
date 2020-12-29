@@ -11,6 +11,7 @@ urlpatterns: List[Union[URLPattern, URLResolver]] = [
     # Include default django authentication URLs.
     path('', include('django.contrib.auth.urls')),
     # Registration page.
-    path('register/', views.register, name = 'register'),
-    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate')
+    path('register/', views.register, name='register'),
+    path('activate/<slug:uidb64>/<slug:token>/',
+         views.activate, name='activate')
 ]

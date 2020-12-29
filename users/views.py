@@ -5,9 +5,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
-from django.http.response import (HttpResponsePermanentRedirect,
+from django.http.response import (Http404, HttpResponsePermanentRedirect,
                                   HttpResponseRedirect)
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
@@ -21,10 +21,11 @@ from .tokens import account_activation_token
 def register(request: WSGIRequest) -> HttpResponse:
     """Register a new user."""
     if request.method != 'POST':
-        form = CustomUserCreationForm() # Display blank registration form.
+        form = CustomUserCreationForm()  # Display blank registration form.
     else:
-        form = CustomUserCreationForm(data=request.POST) # Process completed form.
-        
+        # Process completed form.
+        form = CustomUserCreationForm(data=request.POST)
+
         if form.is_valid():
             new_user: CustomUser = form.save(commit=False)
             # This is a FLAG for the user, if the user is active or not.
@@ -38,8 +39,8 @@ def register(request: WSGIRequest) -> HttpResponse:
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
                 'token': account_activation_token.make_token(new_user)
-            }) # After rendering this the user will be asked to click a link to confirm their account,
-                # Which will lead them to the 'activate' view function to activate their account.
+            })  # After rendering this the user will be asked to click a link to confirm their account,
+            # Which will lead them to the 'activate' view function to activate their account.
             to_email = form.cleaned_data.get('email')
 
             # Create a message.
@@ -53,20 +54,21 @@ def register(request: WSGIRequest) -> HttpResponse:
             return render(request, 'registration/email_confirmation.html')
 
     # Display a blank or invalid registration form.
-    context = { 'form': form }
+    context = {'form': form}
     return render(request, 'registration/register.html', context)
 
-def activate(request: WSGIRequest, uidb64: bytes, token: str) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect, 
-HttpResponse]:
+
+def activate(request: WSGIRequest, uidb64: bytes, token: str) -> Union[HttpResponseRedirect, HttpResponsePermanentRedirect,
+                                                                       HttpResponse]:
     """
     Function for activating the user's account.
     """
     try:
         # Get a user id and get the current user object
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user: CustomUser = CustomUser.objects.get(pk=uid)
+        user: CustomUser = get_object_or_404(CustomUser, pk=uid)
     # Handle the errors that may happen.
-    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, Http404):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         # Set the user is_active flag to True so the user can login.
