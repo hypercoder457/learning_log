@@ -24,4 +24,6 @@ urlpatterns: List[URLPattern] = [
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
     # Page for editing a current entry.
     path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
+    # Page for deleting an entry.
+    path('delete_entry/<pk>/', views.EntryDeleteView.as_view(), name='delete_entry'),
 ]

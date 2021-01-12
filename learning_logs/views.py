@@ -82,6 +82,7 @@ def edit_topic(request: WSGIRequest, topic_id: int):
 
 
 class TopicDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Delete a topic."""
     model = Topic
     template_name = 'learning_logs/delete_topic.html'
     success_url = '/'
@@ -137,3 +138,12 @@ def edit_entry(request: WSGIRequest, entry_id: int) -> Union[HttpResponseRedirec
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+
+class EntryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Entry
+    template_name = 'learning_logs/delete_entry.html'
+    success_url = '/'
+
+    def test_func(self) -> Optional[bool]:
+        return self.get_object().topic.owner == self.request.user

@@ -15,7 +15,8 @@
                 <h4 class="card-header">
                     {{ entry.date_added }}
                     <small>
-                        <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry here</a>
+                        <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry here</a> -
+                        <a href="{% url 'learning_logs:delete_entry' entry.id %}">delete entry here</a>
                     </small>
                 </h4>
                 <div class="card-body">
@@ -29,4 +30,5 @@
             </p>
         {% endfor %}
     <p><a href="{% url 'learning_logs:edit_topic' topic.id %}">Edit topic</a></p>
+    <p><a href="{% url 'learning_logs:delete_topic' topic.id %}">Delete topic</a></p>
 {% endblock content %}
