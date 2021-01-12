@@ -1,0 +1,9 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you really sure you want to delete <b>"{{ object }}"</b>?</p>
+        <input type="submit" class="text-danger" value="Delete this topic" />
+    </form>
+{% endblock content %}

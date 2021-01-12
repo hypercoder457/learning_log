@@ -2,8 +2,7 @@
 
 from typing import List
 
-from django.urls import path
-from django.urls.resolvers import URLPattern
+from django.urls import URLPattern, path
 
 from . import views
 
@@ -19,6 +18,8 @@ urlpatterns: List[URLPattern] = [
     path('new_topic/', views.new_topic, name='new_topic'),
     # Page for editing a topic.
     path('edit_topic/<int:topic_id>/', views.edit_topic, name='edit_topic'),
+    # Page for deleting a topic.
+    path('delete_topic/<pk>/', views.TopicDeleteView.as_view(), name='delete_topic'),
     # Page for adding a new entry
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
     # Page for editing a current entry.

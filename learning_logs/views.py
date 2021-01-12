@@ -1,11 +1,13 @@
-from typing import Union
+from typing import Optional, Union
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import Http404, HttpResponse
 from django.http.response import (HttpResponsePermanentRedirect,
                                   HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import DeleteView
 
 from .forms import EntryForm, TopicForm
 from .models import Entry, Topic
@@ -77,6 +79,15 @@ def edit_topic(request: WSGIRequest, topic_id: int):
             return redirect('learning_logs:topics')
     context = {'form': form, 'topic': topic}
     return render(request, 'learning_logs/edit_topic.html', context)
+
+
+class TopicDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Topic
+    template_name = 'learning_logs/delete_topic.html'
+    success_url = '/'
+
+    def test_func(self) -> Optional[bool]:
+        return self.get_object().owner == self.request.user
 
 
 @login_required
