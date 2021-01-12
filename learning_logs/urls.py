@@ -17,6 +17,8 @@ urlpatterns: List[URLPattern] = [
     path('topics/<int:topic_id>/', views.single_topic, name='topic'),
     # Page to add a new topic with a FORM
     path('new_topic/', views.new_topic, name='new_topic'),
+    # Page for editing a topic.
+    path('edit_topic/<int:topic_id>/', views.edit_topic, name='edit_topic'),
     # Page for adding a new entry
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
     # Page for editing a current entry.

@@ -5,7 +5,6 @@
 {% endblock page_header %}
 
 {% block content %}
-
     <p>Entries:</p>
     <p>
         <a href="{% url 'learning_logs:new_entry' topic.id %}">Add new Entry Page</a>
@@ -29,4 +28,5 @@
                 Go ahead and try to add some entries!
             </p>
         {% endfor %}
+    <p><a href="{% url 'learning_logs:edit_topic' topic.id %}">Edit topic</a></p>
 {% endblock content %}

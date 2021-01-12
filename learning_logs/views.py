@@ -11,7 +11,6 @@ from .forms import EntryForm, TopicForm
 from .models import Entry, Topic
 
 
-# Create your views here.
 def index(request: WSGIRequest) -> HttpResponse:
     """The Home page for Learning Log."""
     return render(request, 'learning_logs/index.html')
@@ -24,7 +23,7 @@ def check_topic_owner(request: WSGIRequest, topic: Topic) -> None:
 
 @login_required
 def topics(request: WSGIRequest) -> HttpResponse:
-    """The `Topics` page for Learning Log. This will show all the Topics."""
+    """The Topics page for Learning Log. This will show all the Topics."""
     all_topics = Topic.objects.filter(
         owner=request.user).order_by('date_added')
     context = {'topics': all_topics}
@@ -56,7 +55,7 @@ def new_topic(request: WSGIRequest) -> Union[HttpResponseRedirect, HttpResponseP
         # so process the data.
 
         if form.is_valid():
-            new_topic = form.save(commit=False)
+            new_topic: Topic = form.save(commit=False)
             new_topic.owner = request.user
             new_topic.save()
             return redirect('learning_logs:topics')
@@ -64,6 +63,20 @@ def new_topic(request: WSGIRequest) -> Union[HttpResponseRedirect, HttpResponseP
     # Display a blank or invalid form.
     context = {'form': form}
     return render(request, 'learning_logs/new_topic.html', context)
+
+
+@login_required
+def edit_topic(request: WSGIRequest, topic_id: int):
+    topic = get_object_or_404(Topic, id=topic_id)
+    if request.method != 'POST':
+        form = TopicForm(instance=topic)
+    else:
+        form = TopicForm(instance=topic, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_logs:topics')
+    context = {'form': form, 'topic': topic}
+    return render(request, 'learning_logs/edit_topic.html', context)
 
 
 @login_required
@@ -80,7 +93,7 @@ def new_entry(request: WSGIRequest, topic_id: int) -> Union[HttpResponseRedirect
         form = EntryForm(data=request.POST)
         if form.is_valid():
             if topic.owner == request.user:
-                new_entry = form.save(commit=False)
+                new_entry: Entry = form.save(commit=False)
                 new_entry.topic = topic
                 new_entry.save()
             return redirect('learning_logs:topic', topic_id=topic_id)
