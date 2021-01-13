@@ -4,9 +4,8 @@ from django.contrib.auth import login
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import EmailMessage
-from django.http import HttpResponse
-from django.http.response import (Http404, HttpResponsePermanentRedirect,
-                                  HttpResponseRedirect)
+from django.http import (Http404, HttpResponse, HttpResponsePermanentRedirect,
+                         HttpResponseRedirect)
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
