@@ -1,6 +1,7 @@
-from typing import Union
+from typing import Optional, Union
 
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.mail import EmailMessage
@@ -10,6 +11,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.views.generic import DeleteView
 
 from .forms import CustomUserCreationForm
 from .models import CustomUser
@@ -78,3 +80,12 @@ def activate(request: WSGIRequest, uidb64: bytes, token: str) -> Union[HttpRespo
         return redirect('learning_logs:index')
     else:
         return render(request, 'registration/invalid_link.html')
+
+
+class AccountDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = CustomUser
+    success_url = '/'
+    template_name = 'registration/delete_account.html'
+
+    def test_func(self) -> Optional[bool]:
+        return self.get_object() == self.request.user

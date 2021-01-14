@@ -1,0 +1,19 @@
+{% extends 'learning_logs/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block page_header %}
+    <h1>Delete your account</h1>
+{% endblock page_header %}
+
+{% block content %}
+    <h1>WARNING, you will lose all of your data if you delete your account.</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you REALLY SURE YOU WANT TO DELETE your account?</p>
+        {% buttons %}
+            <button name="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete your account?');">DELETE ACCOUNT</button>
+        {% endbuttons %}
+    </form>
+{% endblock content %}
