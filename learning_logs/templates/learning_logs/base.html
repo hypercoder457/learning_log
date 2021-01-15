@@ -34,11 +34,14 @@
                 <ul class="navbar-nav mr-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="navbar-text">Hey, {{ user.username }}! 
-                                Welcome to Learning Log!| </span>
+                            <span class="navbar-text">Hey, {{ user.username }}! Welcome!</span> -
                         </li>
                         <li class="nav-item">
-                            <a class="navbar-link" href="{% url 'users:logout' %}">Log out</a>
+                            <a class="navbar-link" href="{% url 'users:logout' %}">Log out</a> -
+                        </li>
+                        <li class="nav-item">
+                            <a class="navbar-link text-danger" 
+                                href="{% url 'users:delete_account' user.pk %}">Delete account</a> -
                         </li>
                     {% else %}
                         <li class="nav-item">
