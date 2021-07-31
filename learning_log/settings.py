@@ -144,6 +144,10 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 EMAIL_PORT = 465
 
+
+# Django 3.2> default auto field setting
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Heroku settings. (for the live server)
 django_heroku.settings(locals())
 
