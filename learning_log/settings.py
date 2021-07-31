@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lj40arw5*5ede&o8^zk2si&1==yfw30aaqtsg4p+6^asdwgw95'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -137,8 +137,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # These settings are for email confirmation settings.
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kpshende@gmail.com'
-EMAIL_HOST_PASSWORD = 'mclfdvzgkomytvwi'
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
 EMAIL_PORT = 465
 
 # Heroku settings. (for the live server)
@@ -146,7 +146,7 @@ django_heroku.settings(locals())
 
 # Setting DEBUG based on environment variables
 
-if os.environ.get('DEBUG') == 'TRUE':
+if os.getenv('DEBUG') == 'TRUE':
     DEBUG = True
-elif os.environ.get('DEBUG') == 'FALSE':
+elif os.getenv('DEBUG') == 'FALSE':
     DEBUG = False
